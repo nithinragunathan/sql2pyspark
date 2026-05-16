@@ -51,5 +51,5 @@ transpile("SELECT id FROM events WHERE ts > 1000", df_name="events_df")
 The generated expression assumes PySpark functions are imported:
 
 ```python
-from pyspark.sql.functions import col, count, sum, avg, max, min
+from pyspark.sql import functions as F
 ```

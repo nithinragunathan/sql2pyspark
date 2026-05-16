@@ -81,7 +81,7 @@ def _contains_agg(expr: exp.Expression) -> bool:
 def _col_ref(expr: exp.Expression) -> str:
     """Return col("name") for a column reference, or a full expression."""
     if isinstance(expr, exp.Column):
-        return f'col("{expr.name}")'
+        return f'F.col("{expr.name}")'
     return _expr(expr)
 
 
@@ -103,7 +103,7 @@ def _expr(expr: exp.Expression) -> str:  # noqa: C901  (acceptable complexity)
 
     # Column reference
     if isinstance(expr, exp.Column):
-        return f'col("{expr.name}")'
+        return f'F.col("{expr.name}")'
 
     # Literals
     if isinstance(expr, exp.Literal):
@@ -123,20 +123,20 @@ def _expr(expr: exp.Expression) -> str:  # noqa: C901  (acceptable complexity)
     if isinstance(expr, exp.Count):
         arg = expr.this
         if isinstance(arg, exp.Star):
-            return 'count("*")'
-        return f"count({_expr(arg)})"
+            return 'F.count("*")'
+        return f"F.count({_expr(arg)})"
 
     if isinstance(expr, exp.Sum):
-        return f"sum({_expr(expr.this)})"
+        return f"F.sum({_expr(expr.this)})"
 
     if isinstance(expr, exp.Avg):
-        return f"avg({_expr(expr.this)})"
+        return f"F.avg({_expr(expr.this)})"
 
     if isinstance(expr, exp.Max):
-        return f"max({_expr(expr.this)})"
+        return f"F.max({_expr(expr.this)})"
 
     if isinstance(expr, exp.Min):
-        return f"min({_expr(expr.this)})"
+        return f"F.min({_expr(expr.this)})"
 
     # Comparison operators
     if isinstance(expr, exp.EQ):
